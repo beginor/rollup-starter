@@ -1,8 +1,7 @@
 import { build } from 'esbuild';
 
-const argv = process.argv;
-const production = argv.indexOf('--prod') > -1;
-const watching = argv.indexOf('--watch') > -1;
+const production = process.env.NODE_ENV === 'production';
+const watching = !!process.env.ESBUILD_WATCH;
 
 /**
  * create esbuild options;
