@@ -45,31 +45,31 @@ function createOptions(entryPoints, output) {
  */
 function esbuild(options) {
   if (watching) {
-    options.watch = !watching ? false : {
+    options.watch = {
       onRebuild(error, result) {
+        const date = new Date();
         if (error) {
-          console.error('watch build failed: ');
+          console.error(`${date.toLocaleString()} watch build failed: `);
           console.error(JSON.stringify(error, undefined, 2));
         }
         else {
-          console.log('watch build succeeded: ');
+          console.log(`${date.toLocaleString()} watch build succeeded: `);
           console.error(JSON.stringify(result, undefined, 2));
         }
       }
     };
   }
 
-  console.log(`start build ${JSON.stringify(options.entryPoints)} -> ${options.outdir ?? options.outfile}`);
-
-  const start = Date.now();
+  const startTime = new Date();
+  console.log(`${startTime.toLocaleString()} start build ${JSON.stringify(options.entryPoints)} -> ${options.outdir ?? options.outfile}`);
 
   return build(options).then(result => {
-    const end = Date.now();
+    const endTime = new Date();
     if (watching) {
-      console.log('watching ...');
+      console.log(`${endTime.toLocaleString()} watching ...`);
     }
     else {
-      console.log(`build completed in ${end - start} ms`);
+      console.log(`${endTime.toLocaleString()} build completed in ${endTime - startTime} ms, result is: `);
       console.log(JSON.stringify(result, undefined, 2));
     }
   }).catch(ex => {
