@@ -8,16 +8,14 @@
     "pnpm": ">=7.0.0"
   },
   "scripts": {
-    "build": "pnpm run clean && pnpm run rollup && pnpm run sass",
-    "build-app": "pnpm run clean-app && pnpm run rollup && pnpm run sass",
+    "build": "pnpm run clean && pnpm run esbuild && pnpm run sass",
+    "build-app": "pnpm run clean-app && pnpm run esbuild && pnpm run sass",
     "clean": "rm -rf dist && mkdir dist",
     "clean-app": "rm -rf dist/main.* dist/chunks",
     "browser-sync": "browser-sync start --config bs-config.js",
-    "rollup": "rollup -c rollup.config.js",
-    "rollup-watch": "pnpm run rollup --watch",
     "sass": "sass styles:dist/styles",
     "sass-watch": "pnpm run sass -w",
-    "dev": "pnpm run clean-app && concurrently \"pnpm run browser-sync\" \"pnpm run rollup-watch\" \"pnpm run sass-watch\"",
+    "dev": "pnpm run clean-app && concurrently \"pnpm run browser-sync\" \"pnpm run esbuild-watch\" \"pnpm run sass-watch\"",
     "start": "pnpm run clean && pnpm run dev",
     "test": "echo test",
     "esbuild": "NODE_ENV=production node esbuild.mjs",
@@ -39,25 +37,17 @@
   "homepage": "https://github.com/beginor/rollup-starter#readme",
   "dependencies": {
     "@popperjs/core": "^2.11.6",
-    "bootstrap": "^5.2.0",
-    "@types/bootstrap": "^5.2.2",
+    "bootstrap": "^5.2.1",
+    "@types/bootstrap": "^5.2.4",
     "bootstrap-icons": "^1.9.1",
     "tslib": "^2.4.0"
   },
   "devDependencies": {
-    "eslint": "^8.22.0",
-    "@typescript-eslint/parser": "^5.33.1",
-    "@typescript-eslint/eslint-plugin": "^5.33.1",
-    "rollup": "^2.78.0",
-    "@rollup/plugin-alias": "^3.1.9",
-    "@rollup/plugin-commonjs": "^22.0.2",
-    "@rollup/plugin-node-resolve": "^13.3.0",
-    "@rollup/plugin-replace": "^4.0.0",
-    "@rollup/plugin-typescript": "^8.3.4",
-    "rollup-plugin-scss": "^3.0.0",
-    "rollup-plugin-esbuild": "^4.9.3",
-    "sass": "^1.54.4",
-    "typescript": "^4.7.4",
-    "esbuild": "^0.15.5"
+    "eslint": "^8.23.1",
+    "@typescript-eslint/parser": "^5.38.0",
+    "@typescript-eslint/eslint-plugin": "^5.38.0",
+    "sass": "^1.55.0",
+    "typescript": "^4.8.3",
+    "esbuild": "^0.15.8"
   }
 }
