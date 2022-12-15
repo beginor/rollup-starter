@@ -21,11 +21,7 @@ function createOptions(entryPoints, output) {
     legalComments: 'none',
     chunkNames: "chunks/[name]",
     treeShaking: production,
-    external: [
-      'tslib',
-      'bootstrap',
-      '@popperjs/core',
-    ],
+    packages: 'external',
     plugins:[],
   };
   if (output.endsWith('/')) {
