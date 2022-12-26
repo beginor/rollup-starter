@@ -8,14 +8,12 @@
     "pnpm": ">=7.0.0"
   },
   "scripts": {
-    "build": "pnpm run clean && pnpm run esbuild && pnpm run sass",
-    "build-app": "pnpm run clean-app && pnpm run esbuild && pnpm run sass",
+    "build": "pnpm run clean && pnpm run esbuild",
+    "build-app": "pnpm run clean-app && pnpm run esbuild",
     "clean": "rm -rf dist && mkdir dist",
     "clean-app": "rm -rf dist/main.* dist/chunks",
     "browser-sync": "browser-sync start --config bs-config.js",
-    "sass": "sass styles:dist/styles",
-    "sass-watch": "pnpm run sass -w",
-    "dev": "pnpm run clean-app && concurrently \"pnpm run browser-sync\" \"pnpm run esbuild-watch\" \"pnpm run sass-watch\"",
+    "dev": "pnpm run clean-app && concurrently \"pnpm run browser-sync\" \"pnpm run esbuild-watch\"",
     "start": "pnpm run clean && pnpm run dev",
     "test": "echo test",
     "esbuild": "NODE_ENV=production node esbuild.mjs",
