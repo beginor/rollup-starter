@@ -12,7 +12,7 @@ export class App {
      */
     public run(): void {
         this.container.innerHTML = `<h1>${this.title}</h1> hello, world!`;
-        this.container.className = 'app-header';
+        this.container.classList.add('app');
     }
 
 }
