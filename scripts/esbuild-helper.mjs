@@ -1,4 +1,4 @@
-import { build } from 'esbuild';
+import * as esbuild from 'esbuild';
 
 const production = process.env.NODE_ENV === 'production';
 const watching = !!process.env.ESBUILD_WATCH;
@@ -7,10 +7,10 @@ const watching = !!process.env.ESBUILD_WATCH;
  * create esbuild options;
  * @param {string[]} entryPoints entry points;
  * @param {string} output output file or dir (end with /)
- * @returns {import('esbuild').BuildOptions}
+ * @returns {esbuild.BuildOptions}
  */
 function createOptions(entryPoints, output) {
-  /** @type {import('esbuild').BuildOptions} */
+  /** @type {esbuild.BuildOptions} */
   const options = {
     entryPoints,
     tsconfig: './tsconfig.json',
@@ -36,42 +36,65 @@ function createOptions(entryPoints, output) {
 }
 
 /**
- * call esbuild
- * @param {import('esbuild').BuildOptions} options esbuild options
+ * build or watch with options;
+ * @param {esbuild.BuildOptions} options esbuild options
  */
-function esbuild(options) {
+function buildOrWatch(options) {
+  const task = `${JSON.stringify(options.entryPoints)} -> ${options.outdir ?? options.outfile}`;
+
   if (watching) {
-    options.watch = {
-      onRebuild(error, result) {
-        const date = new Date();
-        if (error) {
-          console.error(`${date.toLocaleString()} watch build failed: `);
-          console.error(JSON.stringify(error, undefined, 2));
-        }
-        else {
-          console.log(`${date.toLocaleString()} watch build succeeded: `);
-          console.error(JSON.stringify(result, undefined, 2));
-        }
+    let startTime = new Date();
+    /** @type {esbuild.Plugin} */
+    const plugin = {
+      name: 'watch-plugin',
+      setup(pluginBuild) {
+        pluginBuild.onStart(start => {
+          startTime = new Date();
+        });
+        pluginBuild.onEnd(result => {
+          const now = new Date();
+          const elpased = now - startTime;
+          if (result.errors.length > 0 || result.warnings.length > 0) {
+            if (result.errors.length > 0) {
+              console.error(`${now.toLocaleString()} Build completed with errors in ${elpased} ms: `);
+              // console.error(result.errors);
+            }
+            if (result.warnings.length > 0) {
+              console.error(`${now.toLocaleString()} Build completed with warnings in ${elpased} ms: `);
+              // console.error(result.warnings);
+            }
+          }
+          else {
+            console.log(`Build successfully in ${elpased} ms !`);
+          }
+        });
       }
     };
+    console.log(`${startTime.toLocaleString()} Creating watch context for ${task} ...`);
+    esbuild.context({ ...options, plugins: [plugin]}).then(context => {
+      console.log(`${startTime.toLocaleString()} Start watching ...`);
+      context.watch({}).then(() => {
+        startTime = new Date();
+        console.log(`${startTime.toLocaleString()} Watch started ...` );
+      }).catch(ex => {
+        console.error(`Watch failed with error ${ex}`);
+      })
+    }).catch(ex => {
+      console.error(`Create context with error ${ex}`);
+    });
   }
-
-  const startTime = new Date();
-  console.log(`${startTime.toLocaleString()} start build ${JSON.stringify(options.entryPoints)} -> ${options.outdir ?? options.outfile}`);
-
-  return build(options).then(result => {
-    const endTime = new Date();
-    if (watching) {
-      console.log(`${endTime.toLocaleString()} watching ...`);
-    }
-    else {
+  else {
+    const startTime = new Date();
+    console.log(`${startTime.toLocaleString()} start build ${task}`);
+    esbuild.build(options).then(result => {
+      const endTime = new Date();
       console.log(`${endTime.toLocaleString()} build completed in ${endTime - startTime} ms, result is: `);
       console.log(JSON.stringify(result, undefined, 2));
-    }
-  }).catch(ex => {
-    console.error(ex);
-    process.exit(1);
-  });
+    }).catch(ex => {
+      console.error(ex);
+      process.exit(1);
+    });
+  }
 }
 
-export { createOptions, esbuild };
+export { createOptions, buildOrWatch };

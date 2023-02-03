@@ -1,4 +1,4 @@
-import { createOptions, esbuild } from './scripts/esbuild-helper.mjs';
+import { createOptions, buildOrWatch } from './scripts/esbuild-helper.mjs';
 
 const options = createOptions(
   [
@@ -6,4 +6,4 @@ const options = createOptions(
   ],
   './dist/'
 );
-esbuild(options);
+buildOrWatch(options);
