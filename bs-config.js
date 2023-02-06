@@ -8,8 +8,8 @@ const indexFile = 'index.html'
 
 // failback rules;
 const failbackRules = [
-  // { pattern: '/apps/(?!assets/).*/', failback: '/apps/index.html' },
-  { pattern: '/(?!assets/).*/', failback: '/index.html' },
+  // { pattern: '/apps/(?!assets/).*', failback: '/apps/index.html' },
+  { pattern: '/(?!assets/).*', failback: '/index.html' },
 ];
 
 /** @type {import('browser-sync').Options} */
@@ -21,7 +21,7 @@ module.exports = {
   ],
   server: {
     baseDir,
-    directory: true,
+    directory: false,
     index: indexFile,
     middleware: function(req, res, next) {
       const uri = url.parse(req.url);
