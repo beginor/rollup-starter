@@ -53,19 +53,19 @@ function buildOrWatch(options) {
         });
         pluginBuild.onEnd(result => {
           const now = new Date();
-          const elpased = now - startTime;
+          const elapsed = now - startTime;
           if (result.errors.length > 0 || result.warnings.length > 0) {
             if (result.errors.length > 0) {
-              console.error(`${now.toLocaleString()} Build completed with errors in ${elpased} ms: `);
+              console.error(`${now.toLocaleString()} Build completed with errors in ${elapsed} ms: `);
               // console.error(result.errors);
             }
             if (result.warnings.length > 0) {
-              console.error(`${now.toLocaleString()} Build completed with warnings in ${elpased} ms: `);
+              console.error(`${now.toLocaleString()} Build completed with warnings in ${elapsed} ms: `);
               // console.error(result.warnings);
             }
           }
           else {
-            console.log(`Build successfully in ${elpased} ms !`);
+            console.log(`Build successfully in ${elapsed} ms !`);
           }
         });
       }
