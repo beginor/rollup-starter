@@ -5,6 +5,7 @@
     "target": "ESNext",
     "module": "ESNext",
     "lib": ["DOM", "ESNext"],
+    "importHelpers": true,
     "strict": true
   },
   "include": [
