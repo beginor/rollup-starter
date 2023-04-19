@@ -6,10 +6,10 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <base href="/">
   <title>Hello, Rollup!</title>
-  <link rel="stylesheet" href="http://localhost/dist/libs/@tabler/core/css/tabler.min.css">
-  <link rel="stylesheet" href="http://localhost/dist/libs/@tabler/core/css/tabler-vendors.min.css">
+  <link rel="stylesheet" href="http://127.0.0.1/dist/libs/@tabler/core/css/tabler.min.css">
+  <link rel="stylesheet" href="http://127.0.0.1/dist/libs/@tabler/core/css/tabler-vendors.min.css">
   <style>
-  @import url(http://localhost/dist/inter/inter.css);
+  @import url(http://127.0.0.1/dist/inter/inter.css);
   :root {
     --tblr-font-sans-serif: Inter, -apple-system, BlinkMacSystemFont, San Francisco, Segoe UI, Roboto, Helvetica Neue, sans-serif;
   }
@@ -33,12 +33,12 @@
       </div>
     </div>
   </div>
-  <script src="http://localhost/dist/loader.js"></script>
+  <script src="http://127.0.0.1/dist/loader.js"></script>
   <script>
   loadScripts([
     { type: 'importmap',
       src: [
-        `http://localhost/dist/importmap.${isProd()?'prod.json':'json'}`,
+        `http://127.0.0.1/dist/importmap.${isProd()?'prod.json':'json'}`,
         // `./importmap.${isProd()?'prod.json':'json'}`
       ]
     },
