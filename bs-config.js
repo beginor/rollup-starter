@@ -23,24 +23,26 @@ module.exports = {
     baseDir,
     directory: false,
     index: indexFile,
-    middleware: function(req, res, next) {
-      const uri = url.parse(req.url);
-      if (!fs.existsSync(baseDir + uri.pathname)) {
-        for (const rule of failbackRules) {
-          const regex = new RegExp(rule.pattern);
-          if (regex.test(req.url)) {
-            let url = rule.failback;
-            if (uri.search) {
-              url += uri.search;
+    middleware: [
+        function(req, res, next) {
+        const uri = url.parse(req.url);
+        if (!fs.existsSync(baseDir + uri.pathname)) {
+          for (const rule of failbackRules) {
+            const regex = new RegExp(rule.pattern);
+            if (regex.test(req.url)) {
+              let url = rule.failback;
+              if (uri.search) {
+                url += uri.search;
+              }
+              req.url = url;
+              break;
             }
-            req.url = url;
-            break;
           }
         }
-      }
-      next();
-    }
+        next();
+      },
+    ]
   },
   open: false,
-  cors: true
+  cors: true,
 };
