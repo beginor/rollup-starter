@@ -1,13 +1,13 @@
 import './main.css';
 
-const indicator = document.querySelector(
+const indicator = document.querySelector<HTMLDivElement>(
     '.loading-indicator'
-) as HTMLDivElement;
-indicator.parentElement?.removeChild(indicator);
+);
+indicator?.parentElement?.removeChild(indicator);
 
 import('./app').then(m => {
     const elementId = '.page-wrapper';
-    const container = document.querySelector(elementId) as HTMLDivElement;
+    const container = document.querySelector<HTMLDivElement>(elementId);
     if (!container) {
         throw new Error(`Element with id ${elementId} doesn't exists !`)
     }

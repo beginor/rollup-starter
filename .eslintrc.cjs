@@ -1,40 +1,39 @@
-const rules = require('./.eslintrc.rules.js');
+/* eslint-env node */
+const rules = require('./.eslintrc.rules.cjs');
 
-/** @type { import('@typescript-eslint/experimental-utils').TSESLint.Linter.Config } */
+/**
+ * eslint-env node
+ * @type { import('@typescript-eslint/utils/dist').TSESLint.Linter.Config }
+ * */
 module.exports = {
-  "$schema": "https://json.schemastore.org/eslintrc",
-  "root": true,
-  "env": {
-    "browser": true,
-    "es6": true
+  extends: [
+    'eslint:recommended',
+    'plugin:@typescript-eslint/recommended-type-checked',
+    'plugin:@typescript-eslint/stylistic-type-checked',
+  ],
+  plugins: ['@typescript-eslint'],
+  parser: '@typescript-eslint/parser',
+  parserOptions: {
+    project: true,
   },
-  "ignorePatterns": [
+  root: true,
+  env: {
+    browser: true,
+    es6: true
+  },
+  ignorePatterns: [
     "node_modules/**/*",
     "dist/**/*",
     ".idea/**/*",
-    ".vscode/**/*"
+    ".vscode/**/*",
+    ".eslintrc.*"
   ],
-  "overrides": [
+  overrides: [
     {
-      "files": ["*.ts"],
-      "extends": [
-        "plugin:@typescript-eslint/recommended",
-        "plugin:@typescript-eslint/recommended-requiring-type-checking"
-      ],
-      "parser": "@typescript-eslint/parser",
-      "parserOptions": {
-        "sourceType": "module",
-        "project": "./tsconfig.json",
-        "createDefaultProgram": true,
-        "tsconfigRootDir": __dirname
-      },
-      "rules": rules.ts
-    },
-    {
-      "files": ["*.js", "*.mjs"],
-      "parserOptions": {
-        "sourceType": "module",
-        "ecmaVersion": "latest"
+      files: ["*.js", "*.mjs"],
+      parserOptions: {
+        sourceType: "module",
+        ecmaVersion: "latest"
       }
     }
   ]
