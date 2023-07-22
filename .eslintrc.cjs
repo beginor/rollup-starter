@@ -24,9 +24,12 @@ module.exports = {
   ignorePatterns: [
     "node_modules/**/*",
     "dist/**/*",
+    "scripts/*",
     ".idea/**/*",
     ".vscode/**/*",
-    ".eslintrc.*"
+    "*.cjs",
+    "*.js",
+    "*.mjs"
   ],
   overrides: [
     {
