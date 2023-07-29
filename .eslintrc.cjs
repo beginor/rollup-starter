@@ -1,10 +1,8 @@
-/* eslint-env node */
 const rules = require('./.eslintrc.rules.cjs');
 
 /**
- * eslint-env node
  * @type { import('@typescript-eslint/utils/dist').TSESLint.Linter.Config }
- * */
+ */
 module.exports = {
   extends: [
     'eslint:recommended',
@@ -33,11 +31,8 @@ module.exports = {
   ],
   overrides: [
     {
-      files: ["*.js", "*.mjs"],
-      parserOptions: {
-        sourceType: "module",
-        ecmaVersion: "latest"
-      }
+      files: ['*.ts', '*.tsx'],
+      rules: rules.ts
     }
   ]
 }

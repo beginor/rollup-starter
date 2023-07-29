@@ -4,6 +4,7 @@ module.exports.ts = {
   'no-debugger': ['warn'],
   'no-alert': ['warn'],
   'max-len': ['warn'],
+  'no-extra-boolean-cast': ['warn'],
   'brace-style': ['warn', 'stroustrup', { 'allowSingleLine': true }],
   '@typescript-eslint/ban-types': ['off'],
   '@typescript-eslint/explicit-member-accessibility': [
