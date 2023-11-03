@@ -5,7 +5,7 @@ const watching = !!process.env.ESBUILD_WATCH;
 
 /**
  * create esbuild options;
- * @param {string[]} entryPoints entry points;
+ * @param {string[] | Record<string, string> | { in: string, out: string }[]} entryPoints entry points;
  * @param {string} output output file or dir (end with /)
  * @returns {esbuild.BuildOptions}
  */
