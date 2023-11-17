@@ -1,7 +1,7 @@
 const rules = require('./.eslintrc.rules.cjs');
 
 /**
- * @type { import('@typescript-eslint/utils/dist').TSESLint.Linter.Config }
+ * @type { import('@typescript-eslint/utils/dist').TSESLint.Linter.ConfigType }
  */
 module.exports = {
   extends: [
