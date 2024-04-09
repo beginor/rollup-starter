@@ -33,30 +33,32 @@ export default defineConfig({
 });
 
 function spaFailbackPlugin() {
+  let publicDir = 'public';
+
   function spaFailbackMiddleware(req, res, next) {
-    const baseURL =  req.protocol + '://' + req.headers.host + '/';
+    const baseURL =  (req.protocol || 'http') + '://' + req.headers.host + '/';
     const uri = new URL(req.url,baseURL);
     const pathname = uri.pathname;
-    if (pathname.startsWith('/@vite')
+    if (fs.existsSync(__dirname + pathname)
+        || fs.existsSync(publicDir + pathname)
+        || pathname.startsWith('/@vite')
         || pathname.indexOf('/src/') > -1
-        || fs.existsSync('public' + pathname)
         || pathname.endsWith('.map')
+        || pathname.indexOf('/node_modules/') > -1
     ) {
       next();
       return;
     }
-    if (!fs.existsSync(__dirname + pathname)) {
-      for (const rule of failbackRules) {
-        const regex = new RegExp(rule.pattern);
-        if (regex.test(req.url)) {
-          let url = rule.failback;
-          if (uri.search) {
-            url += uri.search;
-          }
-          console.log(`${pathname} change to: ${url}`);
-          req.url = url;
-          break;
+    for (const rule of failbackRules) {
+      const regex = new RegExp(rule.pattern);
+      if (regex.test(req.url)) {
+        let url = rule.failback;
+        if (uri.search) {
+          url += uri.search;
         }
+        console.log(`${pathname} change to: ${url}`);
+        req.url = url;
+        break;
       }
     }
     next();
@@ -65,9 +67,11 @@ function spaFailbackPlugin() {
   return {
     name: 'spa-failback',
     configureServer: (server) => {
+      publicDir = server.config.publicDir;
       server.middlewares.use(spaFailbackMiddleware);
     },
     configurePreviewServer: (server) => {
+      publicDir = server.config.publicDir;
       server.middlewares.use(spaFailbackMiddleware);
     },
   }
