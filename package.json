@@ -8,16 +8,10 @@
     "pnpm": ">=8.0.0"
   },
   "scripts": {
-    "build": "pnpm run clean && pnpm run esbuild",
-    "build-app": "pnpm run clean-app && pnpm run esbuild",
-    "clean": "rm -rf dist && mkdir dist",
-    "clean-app": "rm -rf dist/main.* dist/chunks",
-    "browser-sync": "browser-sync start --config bs-config.js",
-    "dev": "pnpm run clean-app && concurrently \"pnpm run browser-sync\" \"pnpm run esbuild-watch\"",
-    "start": "pnpm run clean && pnpm run dev",
-    "test": "echo test",
-    "esbuild": "NODE_ENV=production node esbuild.mjs",
-    "esbuild-watch": "ESBUILD_WATCH=true node esbuild.mjs"
+    "build": "vite build",
+    "start": "vite",
+    "preview": "vite preview",
+    "test": "echo test"
   },
   "repository": {
     "type": "git",
@@ -35,15 +29,16 @@
   "homepage": "https://github.com/beginor/rollup-starter#readme",
   "dependencies": {
     "@popperjs/core": "^2.11.8",
-    "bootstrap": "^5.3.2",
-    "@types/bootstrap": "^5.2.9",
+    "bootstrap": "^5.3.3",
+    "@types/bootstrap": "^5.2.10",
     "tslib": "^2.6.2"
   },
   "devDependencies": {
-    "eslint": "^8.53.0",
+    "eslint": "^9.0.0",
     "@typescript-eslint/parser": "^6.11.0",
     "@typescript-eslint/eslint-plugin": "^6.11.0",
     "typescript": "^5.2.2",
-    "esbuild": "^0.19.5"
+    "vite": "^5.2.7",
+    "@vitejs/plugin-react": "^4.2.1"
   }
 }

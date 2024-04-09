@@ -1,5 +1,6 @@
 import './main.css';
 
+
 const indicator = document.querySelector<HTMLDivElement>(
     '.loading-indicator'
 );

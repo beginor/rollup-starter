@@ -27,7 +27,8 @@ module.exports = {
     ".vscode/**/*",
     "*.cjs",
     "*.js",
-    "*.mjs"
+    "*.mjs",
+    "vite.config.ts",
   ],
   overrides: [
     {
