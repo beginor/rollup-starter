@@ -1,11 +1,12 @@
 import fs from 'fs';
 
 import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react';
 
-// failback rules;
-const failbackRules = [
-  // { pattern: '/apps/(?!assets/).*', failback: '/apps/index.html' },
-  { pattern: '/(?!assets/).*', failback: '/index.html' },
+// fallback rules;
+const fallbackRules = [
+  // { pattern: '/apps/(?!assets/).*', fallback: '/apps/index.html' },
+  { pattern: '/(?!assets/).*', fallback: '/index.html' },
 ];
 
 export default defineConfig({
@@ -28,12 +29,14 @@ export default defineConfig({
     }
   },
   plugins: [
-    spaFallbackPlugin()
+    react(),
+    spaFallbackPlugin(),
   ]
 });
 
 function spaFallbackPlugin() {
   let publicDir = 'public';
+  const bypassRegex = /@vite|@react-refresh|\/src\/|\/node_modules\/|\.map$/;
 
   function spaFallbackMiddleware(req, res, next) {
     const baseURL =  (req.protocol || 'http') + '://' + req.headers.host + '/';
@@ -41,18 +44,15 @@ function spaFallbackPlugin() {
     const pathname = uri.pathname;
     if (fs.existsSync(__dirname + pathname)
         || fs.existsSync(publicDir + pathname)
-        || pathname.startsWith('/@vite')
-        || pathname.indexOf('/src/') > -1
-        || pathname.endsWith('.map')
-        || pathname.indexOf('/node_modules/') > -1
+        || bypassRegex.test(pathname)
     ) {
       next();
       return;
     }
-    for (const rule of failbackRules) {
+    for (const rule of fallbackRules) {
       const regex = new RegExp(rule.pattern);
       if (regex.test(req.url)) {
-        let url = rule.failback;
+        let url = rule.fallback;
         if (uri.search) {
           url += uri.search;
         }
