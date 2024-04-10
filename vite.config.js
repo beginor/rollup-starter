@@ -28,14 +28,14 @@ export default defineConfig({
     }
   },
   plugins: [
-    spaFailbackPlugin()
+    spaFallbackPlugin()
   ]
 });
 
-function spaFailbackPlugin() {
+function spaFallbackPlugin() {
   let publicDir = 'public';
 
-  function spaFailbackMiddleware(req, res, next) {
+  function spaFallbackMiddleware(req, res, next) {
     const baseURL =  (req.protocol || 'http') + '://' + req.headers.host + '/';
     const uri = new URL(req.url,baseURL);
     const pathname = uri.pathname;
@@ -65,14 +65,14 @@ function spaFailbackPlugin() {
   }
 
   return {
-    name: 'spa-failback',
+    name: 'spa-fallback',
     configureServer: (server) => {
       publicDir = server.config.publicDir;
-      server.middlewares.use(spaFailbackMiddleware);
+      server.middlewares.use(spaFallbackMiddleware);
     },
     configurePreviewServer: (server) => {
       publicDir = server.config.publicDir;
-      server.middlewares.use(spaFailbackMiddleware);
+      server.middlewares.use(spaFallbackMiddleware);
     },
   }
 }
