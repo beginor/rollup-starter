@@ -28,7 +28,6 @@ module.exports = {
     "*.cjs",
     "*.js",
     "*.mjs",
-    "vite.config.ts",
   ],
   overrides: [
     {
