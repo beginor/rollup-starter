@@ -1,5 +1,3 @@
-import fs from 'fs';
-
 import { defineConfig } from 'vite';
 
 import spaFallbackPlugin from './vite-plugin-spafallback';
@@ -16,7 +14,7 @@ export default defineConfig({
     host: '127.0.0.1',
     port: 3000,
     proxy: {
-      "/api": 'http://localhost:5000/api'
+      '/api': 'http://localhost:5000/api'
     },
   },
   build: {
