@@ -1,38 +1,32 @@
-const rules = require('./.eslintrc.rules.cjs');
+import { fileURLToPath } from 'node:url';
+import { dirname } from 'node:path';
 
-/**
- * @type { import('@typescript-eslint/utils/dist').TSESLint.Linter.ConfigType }
- */
-module.exports = {
-  extends: [
-    'eslint:recommended',
-    'plugin:@typescript-eslint/recommended-type-checked',
-    'plugin:@typescript-eslint/stylistic-type-checked',
-  ],
-  plugins: ['@typescript-eslint'],
-  parser: '@typescript-eslint/parser',
-  parserOptions: {
-    project: true,
+import eslint from '@eslint/js';
+import tseslint from 'typescript-eslint';
+
+import * as rules  from './eslint.rules.mjs';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+export default tseslint.config(
+  {
+    files: ['src/**/*.ts', 'src/**/*.tsx'],
+    languageOptions: {
+      parserOptions: {
+        project: true,
+        tsconfigRootDir: __dirname,
+        createDefaultProgram: true,
+      },
+    },
+    extends: [
+      eslint.configs.recommended,
+      tseslint.configs.recommendedTypeChecked,
+      tseslint.configs.stylisticTypeChecked,
+    ],
   },
-  root: true,
-  env: {
-    browser: true,
-    es6: true
+  {
+    files: ['src/**/*.ts', 'src/**/*.tsx'],
+    rules: rules.ts,
   },
-  ignorePatterns: [
-    "node_modules/**/*",
-    "dist/**/*",
-    "scripts/*",
-    ".idea/**/*",
-    ".vscode/**/*",
-    "*.cjs",
-    "*.js",
-    "*.mjs",
-  ],
-  overrides: [
-    {
-      files: ['*.ts', '*.tsx'],
-      rules: rules.ts
-    }
-  ]
-}
+);

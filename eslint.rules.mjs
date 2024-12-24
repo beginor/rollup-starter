@@ -1,4 +1,4 @@
-module.exports.ts = {
+export const ts = {
   'quotes': ['warn', 'single'],
   'no-console': ['warn', { 'allow': ['error'] }],
   'no-debugger': ['warn'],
