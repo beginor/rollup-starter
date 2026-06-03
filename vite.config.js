@@ -1,4 +1,5 @@
 import { defineConfig } from 'vite';
+import tailwindcss from '@tailwindcss/vite';
 
 import spaFallbackPlugin from './vite-plugin-spafallback';
 
@@ -27,6 +28,7 @@ export default defineConfig({
     }
   },
   plugins: [
+    tailwindcss(),
     spaFallbackPlugin(fallbackRules),
   ]
 });
